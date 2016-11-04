@@ -2,7 +2,9 @@
 
 extract all the files to Bin64\FM2\
 
-<br> Bin64\FM2\main.py </br>
+Bin64\FM2\main.py
+
+
 <br> Bin64\FM2\resource\__init__.py </br>
 <br> Bin64\FM2\resource\__init__.pyc </br>
 <br> Bin64\FM2\resource\rlWidget.py </br>
