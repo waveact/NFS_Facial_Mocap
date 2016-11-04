@@ -1,6 +1,6 @@
 # NFS_Facial_Mocap
 
-extract all the files to Bin64\FM2\
+<B> extract all the files to Bin64\FM2\ </B>
 
 Bin64\FM2\main.py
 
