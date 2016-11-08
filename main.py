@@ -295,7 +295,7 @@ class Faceware():
                         
         for i in range(len(facewareList)):
             for j in range(len(data)):
-                if ( data[j]["id"] == facewareList[i] ):
+                if ( data[j]["id"].lower() == facewareList[i].lower() ):
                     for k in range(len(data[j]["feHeadData"])):
                         iCloneHeadData[k] = iCloneHeadData[k] + (data[j]["feHeadData"][k]*self.value[i])
         
