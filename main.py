@@ -217,7 +217,19 @@ class Faceware():
             data = data + "}"
             decodejson = json.loads(data)
             self.analystData(data)
-        
+    
+    
+    def renameKeys(self,iterable):
+        if type(iterable) is dict:
+            for key in iterable.keys():
+                iterable[key.lower()] = iterable.pop(key)
+                if type(iterable[key.lower()]) is dict or type(iterable[key.lower()]) is list:
+                    iterable[key.lower()] = renameKeys(iterable[key.lower()])
+        elif type(iterable) is list:
+            for item in iterable:
+                item = renameKeys(item)
+        return iterable
+    
     def analystData(self,_json):
         print "analystData"
         
@@ -228,10 +240,11 @@ class Faceware():
         dataFromFaceware = decodejson["animationValues"]
         
         self.value = []
-        #self.value.append(0)
+        
+        dataFromFaceware = self.renameKeys(dataFromFaceware)
         
         for name in facewareList:
-            data_name = name.split(".")[1]
+            data_name = (name.split(".")[1]).lower()
             try:
                 #debugMsg(data_name)
                 self.value.append(dataFromFaceware[data_name])
