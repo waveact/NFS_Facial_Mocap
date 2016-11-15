@@ -13,7 +13,7 @@ from PySide2 import QtCore
 from PySide2.QtWidgets import *
 
 class VerticalSliderSpinner(QWidget):
-    def __init__(self, parentWidget, label, degrees, _x, _y):
+    def __init__(self, parentWidget, label, degrees, _x, _y, _max, _min):
         # QWidget will be self
         QWidget.__init__(self)
         # setGeometry(x_pos, y_pos, width, height)
@@ -23,6 +23,9 @@ class VerticalSliderSpinner(QWidget):
         self.value = 0
         
         self.parentWidget = parentWidget
+        
+        self.max = _max
+        self.min = _min
         
         self.x = _x
         self.y = _y
@@ -52,12 +55,12 @@ class VerticalSliderSpinner(QWidget):
         self.slider.valueChanged.connect(self.sliderValueChanged)
         self.spinner.valueChanged.connect(self.spinnerValueChanged)
         
-        self.spinner.setMaximum(200)
-        self.spinner.setMinimum(-200)
+        self.spinner.setMaximum(self.max)
+        self.spinner.setMinimum(self.min)
         self.spinner.setValue( 0 )
         
-        self.slider.setMaximum(200)
-        self.slider.setMinimum(-200)
+        self.slider.setMaximum(self.max)
+        self.slider.setMinimum(self.min)
         self.slider.setValue( 0 )
     
     def setValue(self,value):

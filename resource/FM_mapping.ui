@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>526</width>
-    <height>360</height>
+    <height>428</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -34,6 +34,13 @@
       </widget>
      </item>
     </layout>
+   </item>
+   <item>
+    <widget class="QPushButton" name="qtDataSourcePushButton">
+     <property name="text">
+      <string>Monitor data streaming</string>
+     </property>
+    </widget>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -126,7 +133,7 @@
             <x>0</x>
             <y>0</y>
             <width>502</width>
-            <height>172</height>
+            <height>211</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_6">
@@ -169,8 +176,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>502</width>
-            <height>172</height>
+            <width>100</width>
+            <height>30</height>
            </rect>
           </property>
           <property name="minimumSize">
@@ -209,8 +216,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>484</width>
-            <height>154</height>
+            <width>100</width>
+            <height>30</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="verticalLayout_7"/>
@@ -243,8 +250,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>484</width>
-            <height>154</height>
+            <width>100</width>
+            <height>30</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="verticalLayout_7"/>

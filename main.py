@@ -26,6 +26,7 @@ sys.path.insert(0, ResPath) # or sys.path.append('/path/to/application/app/folde
 
 mainUI = ResPath + "\\resource\FM_mainWindow.ui"
 mappingUI = ResPath + "\\resource\FM_mapping.ui"
+dataSourceUI = ResPath + "\\resource\FM_dataSource.ui"
 
 #import VerticalSliderSpinner
 #import rlWidget
@@ -98,7 +99,7 @@ for i in range(0,6):
     feBoneData.append(0.0)
 
 
-    
+sourceData = []
 #VerticalSliderSpinner = reload(VerticalSliderSpinner)
 
 ##########################
@@ -317,9 +318,35 @@ class Faceware():
             #debugMsg(iCloneRegularData)
             self.bool = False
         
+        global sourceData
+        for i in range(len(sourceData)):
+            #sourceData[i].container.setValue(self.value[i])
+            data_name = ((sourceData[i].name).split(".")[1]).lower()
+            #debugMsg(data_name)
+            #debugMsg(dataFromFaceware[data_name])
+            try:
+                sourceData[i].container.setValue(dataFromFaceware[data_name]*100)
+            except:
+                None
+        
         script.SetFacePuppetKeyWithName( script.GetPickedObjectName(),0,iCloneHeadData,iCloneEyeLData,iCloneEyeRData,iCloneBoneData,iCloneRegularData,iCloneCustomData )
 
+class DataSourceID:
+    def __init__(self, name, id, parentWidget ):
+        self.name = name
+        self.id = id
+        
+        self.parentWidget = parentWidget
 
+        self.container = VerticalSliderSpinner(self,self.name,-90, 25, 40, 100, 0)
+        #hboxLayout = PySide2.QtWidgets.QVBoxLayout()
+        #self.container.setLayout( hboxLayout )
+        self.parentWidget.layout().addWidget(self.container)
+    
+    def onValueChanged(self,value):
+        None
+    
+    
 class FacialID:
     def __init__(self, name, id, parentWidget, type ):
         self.name = name
@@ -329,48 +356,13 @@ class FacialID:
 
         self.parentWidget = parentWidget
 
-        '''
-        self.container = PySide2.QtWidgets.QWidget()
-        hboxLayout = PySide2.QtWidgets.QVBoxLayout()
-        self.container.setLayout( hboxLayout )
-        
-        self.parentWidget.layout().addWidget(self.container)
-
-        self.ui = VerticalSliderSpinner(self.name,90)
-        self.container.layout().addWidget( self.ui )
-        '''
-        
-        self.container = VerticalSliderSpinner(self,self.name,-90, 25, 40)
+        self.container = VerticalSliderSpinner(self,self.name,-90, 25, 40, 200, -200)
         #hboxLayout = PySide2.QtWidgets.QVBoxLayout()
         #self.container.setLayout( hboxLayout )
         self.parentWidget.layout().addWidget(self.container)
         
         #self.container.mouseDoubleClickEvent.connect(self.onMouseDoubleClick)
         #self.container.connect(self.container, SIGNAL('doubleClicked()'), self.onMouseDoubleClick)
-        
-        '''
-        self.container = PySide2.QtWidgets.QWidget()
-        hboxLayout = PySide2.QtWidgets.QHBoxLayout()
-        self.container.setLayout( hboxLayout )
-        
-        self.containerForMapping = PySide2.QtWidgets.QWidget()
-        vboxLayout = PySide2.QtWidgets.QHBoxLayout()
-        self.containerForMapping.setLayout( vboxLayout )
-        
-        self.parentWidget = parentWidget
-        self.parentWidget.layout().addWidget( self.container )
-        self.parentWidget.layout().addWidget( self.containerForMapping )
-        '''
-        #self.container.layout().addWidget( self.label )
-        #self.addButton = PySide2.QtWidgets.QPushButton( "add",self.container )
-        #self.addButton.clicked.connect(self.create)
-        
-        #self.mappingList = targetMappingList
-        #self.target = 
-        
-        #self.ui = VerticalLabel(self.name)
-        
-        #self.container.layout().addWidget( self.ui )
     
     def valueNormalize(self,table):
         for i in range(len(table)):
@@ -662,7 +654,8 @@ def stop():
     device.stop()
     scriptEvent.StopTimer()
 
-
+def showDataSource():
+    fmDataSourceUi.show()
     
 #init
 app = PySide2.QtWidgets.QApplication.instance()
@@ -680,7 +673,6 @@ mainWidget.setLayout( hboxLayout )
 mainWidget.layout().addWidget( fmMainUi )
 mainWidget.show()
 
-
 #fmMainUi.show()
 fmMainUi.qtMappingToolButton.clicked.connect(openMappingDlg)
 fmMainUi.qtRecordPushButton.clicked.connect(startRecord)
@@ -695,14 +687,26 @@ fmMappingUi.qtZeroAllPushButton.clicked.connect(zeroAll)
 fmMappingUi.qtSavePushButton.clicked.connect(saveData)
 fmMappingUi.qtLoadPushButton.clicked.connect(loadData)
 fmMappingUi.qtShowAllSliderCheckBox.clicked.connect(showSlider)
+fmMappingUi.qtDataSourcePushButton.clicked.connect(showDataSource)
 #fmMappingUi.qtLoadPushButton.clicked.connect(loadData)
 #fmMappingUi.qtZeroAllPushButton.connect(zeroAll)
 mainWidget.setRelatedWidget(fmMappingUi)
 
+loader = QUiLoader()
+file = PySide2.QtCore.QFile(dataSourceUI)
+file.open(PySide2.QtCore.QFile.ReadOnly)
+fmDataSourceUi = loader.load(file)
+mainWidget.setRelatedWidget(fmDataSourceUi)
+#fmDataSourceUi.show()
 
 def initUi():
     
+    global sourceData
     #initDataStructure()
+    for i in range (len(facewareList)):
+        temp = DataSourceID(facewareList[i], i, fmDataSourceUi.qtScrollAreaWidgetContents)
+        sourceData.append(temp)
+    
     
     fmMappingUi.qtExpressionComboBox.addItems(facewareList)
     #debugMsg(fmMappingUi.qtExpressionComboBox.currentText())
