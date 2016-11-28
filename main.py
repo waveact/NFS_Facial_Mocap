@@ -38,6 +38,11 @@ reload(resource.VerticalSliderSpinner)
 
 from resource.VerticalSliderSpinner import VerticalSliderSpinner
 
+globalStrength = 100
+
+tempData = []
+sgFilterContainer = [tempData,tempData,tempData,tempData,tempData,tempData,tempData,tempData,tempData,tempData]
+
 '''
 import rlSlider
 reload(rlSlider)
@@ -234,6 +239,8 @@ class Faceware():
     def analystData(self,_json):
         print "analystData"
         
+        
+        
         packer = struct.Struct('iifffffffffffffffffffffffffffffffffffffffffffffffff')
         bufferSize = struct.calcsize('iifffffffffffffffffffffffffffffffffffffffffffffffff')
         
@@ -244,6 +251,39 @@ class Faceware():
         
         dataFromFaceware = self.renameKeys(dataFromFaceware)
         
+        temp = []
+        
+        for data in sourceData:
+            try:
+                dataFromFaceware[data.name.lower()] = dataFromFaceware[data.name.lower()]*data.container.multiplyValue
+            except:
+                None
+
+        '''
+        global sgFilterContainer
+        sgFilterContainer.pop(0);
+        sgFilterContainer.append(dataFromFaceware);
+        
+        for name in facewareList:
+            data_name = (name.split(".")[1]).lower()
+            try:
+                #debugMsg(data_name)
+                #print math.round(100*sgFilterContainer[0][data_name])
+                #tempNp = np.ndarray((10,),buffer=np.array([math.round(100*sgFilterContainer[0][data_name]),math.round(100*sgFilterContainer[1][data_name]),3]),dtype=int)
+                #debugMsg("aaa")
+                
+                #debugMsg(math.round(100*sgFilterContainer[0][data_name]))
+                #tempNp = np.ndarray((10,),buffer=np.array([1,2,3,4,5,6,7,8,9,int(100*sgFilterContainer[0][data_name])]),dtype=int)
+                tempNp = np.ndarray((10,),buffer=np.array([int(100*sgFilterContainer[0][data_name]),int(100*sgFilterContainer[1][data_name]),int(100*sgFilterContainer[2][data_name]),int(100*sgFilterContainer[3][data_name]),int(100*sgFilterContainer[4][data_name]),int(100*sgFilterContainer[5][data_name]),int(100*sgFilterContainer[6][data_name]),int(100*sgFilterContainer[7][data_name]),int(100*sgFilterContainer[8][data_name]),int(100*sgFilterContainer[9][data_name])]),dtype=int)
+                #debugMsg(tempNp)
+                yhat = savitzky_golay(tempNp, 9, 2)
+                #debugMsg(yhat)
+                self.value.append(yhat[9]/100)
+                #self.value.append(0)
+            except:
+                self.value.append(0)
+        
+        '''
         for name in facewareList:
             data_name = (name.split(".")[1]).lower()
             try:
@@ -254,6 +294,7 @@ class Faceware():
                 self.value.append(0)
         
         #self.value[1] = 100
+        
         
         global data
     
@@ -311,7 +352,8 @@ class Faceware():
             for j in range(len(data)):
                 if ( data[j]["id"].lower() == facewareList[i].lower() ):
                     for k in range(len(data[j]["feHeadData"])):
-                        iCloneHeadData[k] = iCloneHeadData[k] + (data[j]["feHeadData"][k]*self.value[i])
+                        if ( data[j]["feHeadData"][k] > 0.3 ):
+                            iCloneHeadData[k] = iCloneHeadData[k] + ((data[j]["feHeadData"][k]-0.3)*self.value[i])
         
         #tag = True
         if (self.bool):
@@ -329,16 +371,18 @@ class Faceware():
             except:
                 None
         
-        script.SetFacePuppetKeyWithName( script.GetPickedObjectName(),0,iCloneHeadData,iCloneEyeLData,iCloneEyeRData,iCloneBoneData,iCloneRegularData,iCloneCustomData )
+        script.SetFacePuppetKeyWithName( script.GetPickedObjectName(),script.ConvertTimeToFrame(script.GetCurrentTimeScript()),iCloneHeadData,iCloneEyeLData,iCloneEyeRData,iCloneBoneData,iCloneRegularData,iCloneCustomData )
+        #script.SetFacePuppetKeyWithName( script.GetPickedObjectName(),0,iCloneHeadData,iCloneEyeLData,iCloneEyeRData,iCloneBoneData,iCloneRegularData,iCloneCustomData )
 
 class DataSourceID:
-    def __init__(self, name, id, parentWidget ):
+    def __init__(self, name, id, parentWidget, multiplyValue = 1 ):
         self.name = name
         self.id = id
-        
+        self.multiplyValue = multiplyValue
         self.parentWidget = parentWidget
 
-        self.container = VerticalSliderSpinner(self,self.name,-90, 25, 40, 100, 0)
+        self.container = VerticalSliderSpinner(self,self.name,-90,80, 70, 100, 0, smooth = True, mute = True, range = True, multiply = True)
+        self.container.setMultiplyValue(self.multiplyValue)
         #hboxLayout = PySide2.QtWidgets.QVBoxLayout()
         #self.container.setLayout( hboxLayout )
         self.parentWidget.layout().addWidget(self.container)
@@ -356,7 +400,7 @@ class FacialID:
 
         self.parentWidget = parentWidget
 
-        self.container = VerticalSliderSpinner(self,self.name,-90, 25, 40, 200, -200)
+        self.container = VerticalSliderSpinner(self,self.name,-90, 25, 50, 200, -200 )
         #hboxLayout = PySide2.QtWidgets.QVBoxLayout()
         #self.container.setLayout( hboxLayout )
         self.parentWidget.layout().addWidget(self.container)
@@ -374,22 +418,23 @@ class FacialID:
 
         #debugMsg(fmMappingUi.qtExpressionComboBox.currentIndex())
         if (self.type == "feRegularData"):
-            data[fmMappingUi.qtExpressionComboBox.currentIndex()]["feRegularData"][self.id] = value/100.0
+            data[fmMappingUi.qtExpressionComboBox.currentIndex()]["feRegularData"][self.id] = value/100.0*globalStrength/100
             
         elif (self.type == "feCustomData"):
-            data[fmMappingUi.qtExpressionComboBox.currentIndex()]["feCustomData"][self.id] = value/100.0
+            data[fmMappingUi.qtExpressionComboBox.currentIndex()]["feCustomData"][self.id] = value/100.0*globalStrength/100
             
         elif (self.type == "feBoneData"):
-            data[fmMappingUi.qtExpressionComboBox.currentIndex()]["feBoneData"][self.id] = value/100.0
+            data[fmMappingUi.qtExpressionComboBox.currentIndex()]["feBoneData"][self.id] = value/100.0*globalStrength/100
             
         elif (self.type == "feEyeLData"):
-            data[fmMappingUi.qtExpressionComboBox.currentIndex()]["feEyeLData"][self.id] = value/100.0
+            data[fmMappingUi.qtExpressionComboBox.currentIndex()]["feEyeLData"][self.id] = value/100.0*globalStrength/100
             
         elif (self.type == "feEyeRData"):
-            data[fmMappingUi.qtExpressionComboBox.currentIndex()]["feEyeRData"][self.id] = value/100.0
+            data[fmMappingUi.qtExpressionComboBox.currentIndex()]["feEyeRData"][self.id] = value/100.0*globalStrength/100
             
         elif (self.type == "feHeadData"):
-            data[fmMappingUi.qtExpressionComboBox.currentIndex()]["feHeadData"][self.id] = value/100.0
+            if (value > 30):
+                data[fmMappingUi.qtExpressionComboBox.currentIndex()]["feHeadData"][self.id] = (value-30)/100.0
             
         else:
             None
@@ -494,10 +539,21 @@ def saveData():
             )
     if filePath:
         global data
+        global sourceData
         #debugMsg(data)
         with open(filePath, "w") as f:
+            #f.write(toJson(data) + "\n")
+            for source in sourceData:
+                temp = {}
+                temp["id"] = source.name
+                temp["strength"] = source.container.multiplyValue
+                data.append(temp)
+                #temp[source.name]["strength"] = source.container.multiplyValue
+            #f.write(toJson(temp) + "\n")
+            #totalData = data + temp
             f.write(toJson(data) + "\n")
-
+            
+            
 def loadDefaultData():
     filePath = ResPath + "\\resource\default_mapping_data.json"
     if filePath:
@@ -634,6 +690,15 @@ def changeData():
             
             break
     
+    for i in range(len(sourceData)):
+        for j in range(len(data)):
+            if ( data[j]["id"] == sourceData[i].name ):
+                try:
+                    #debugMsg(data[j]["strength"])
+                    sourceData[i].container.setMultiplyValue(data[j]["strength"])
+                except:
+                    None
+    
     showSlider()
     
 def loop():
@@ -645,10 +710,12 @@ def startPreview():
     #debugMsg(device)
     device.start()
     scriptEvent.Append("Timer","loop()",[1, -1])
+    script.Play()
             
             
 def startRecord():
     stop()
+    script.Stop()
 
 def stop():
     device.stop()
@@ -656,6 +723,17 @@ def stop():
 
 def showDataSource():
     fmDataSourceUi.show()
+
+def sliderStrengthChanged():
+    global globalStrength
+    globalStrength = fmMappingUi.qtGlobalStrengthSlider.value()
+    fmMappingUi.qtGlobalStrengthSpinBox.setValue(globalStrength)
+    #debugMsg(globalStrength)
+def spinboxStrengthChanged():
+    global globalStrength
+    globalStrength = fmMappingUi.qtGlobalStrengthSpinBox.value()
+    fmMappingUi.qtGlobalStrengthSlider.setValue(globalStrength)
+    
     
 #init
 app = PySide2.QtWidgets.QApplication.instance()
@@ -688,6 +766,8 @@ fmMappingUi.qtSavePushButton.clicked.connect(saveData)
 fmMappingUi.qtLoadPushButton.clicked.connect(loadData)
 fmMappingUi.qtShowAllSliderCheckBox.clicked.connect(showSlider)
 fmMappingUi.qtDataSourcePushButton.clicked.connect(showDataSource)
+fmMappingUi.qtGlobalStrengthSlider.valueChanged.connect(sliderStrengthChanged)
+fmMappingUi.qtGlobalStrengthSpinBox.valueChanged.connect(spinboxStrengthChanged)
 #fmMappingUi.qtLoadPushButton.clicked.connect(loadData)
 #fmMappingUi.qtZeroAllPushButton.connect(zeroAll)
 mainWidget.setRelatedWidget(fmMappingUi)
@@ -699,12 +779,14 @@ fmDataSourceUi = loader.load(file)
 mainWidget.setRelatedWidget(fmDataSourceUi)
 #fmDataSourceUi.show()
 
+
+
 def initUi():
     
     global sourceData
     #initDataStructure()
     for i in range (len(facewareList)):
-        temp = DataSourceID(facewareList[i], i, fmDataSourceUi.qtScrollAreaWidgetContents)
+        temp = DataSourceID(facewareList[i], i, fmDataSourceUi.qtScrollAreaWidgetContents, 1)
         sourceData.append(temp)
     
     

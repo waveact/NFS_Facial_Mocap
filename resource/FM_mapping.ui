@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>526</width>
-    <height>428</height>
+    <height>579</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -133,7 +133,7 @@
             <x>0</x>
             <y>0</y>
             <width>502</width>
-            <height>211</height>
+            <height>332</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_6">
@@ -261,6 +261,40 @@
       </layout>
      </widget>
     </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_5">
+     <item>
+      <widget class="QLabel" name="qtGlobalStrengthLabel">
+       <property name="text">
+        <string>Global Strength : </string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSlider" name="qtGlobalStrengthSlider">
+       <property name="maximum">
+        <number>300</number>
+       </property>
+       <property name="value">
+        <number>100</number>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="qtGlobalStrengthSpinBox">
+       <property name="maximum">
+        <number>300</number>
+       </property>
+       <property name="value">
+        <number>100</number>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
     <widget class="QCheckBox" name="qtShowAllSliderCheckBox">
