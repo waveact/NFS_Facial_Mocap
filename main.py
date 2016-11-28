@@ -239,7 +239,7 @@ class Faceware():
     def analystData(self,_json):
         print "analystData"
         
-        
+        global globalStrength
         
         packer = struct.Struct('iifffffffffffffffffffffffffffffffffffffffffffffffff')
         bufferSize = struct.calcsize('iifffffffffffffffffffffffffffffffffffffffffffffffff')
@@ -253,9 +253,18 @@ class Faceware():
         
         temp = []
         
-        for data in sourceData:
+        global sourceData
+       
+        for i in range(len(sourceData)):
+            #debugMsg(sourceData[i])
+            #debugMsg(sourceData[i]["id"])
+            tempName = sourceData[i].name.lower()
+            data_name = (tempName.split(".")[1]).lower()
             try:
-                dataFromFaceware[data.name.lower()] = dataFromFaceware[data.name.lower()]*data.container.multiplyValue
+                #data_name = (name.split(".")[1]).lower()
+                #debugMsg(dataFromFaceware[dataSource["id"].lower()])
+                dataFromFaceware[data_name] = dataFromFaceware[data_name]*sourceData[i].container.multiplyValue*globalStrength/100
+                #debugMsg(dataFromFaceware[dataSource["id"].lower()])
             except:
                 None
 
@@ -295,9 +304,10 @@ class Faceware():
         
         #self.value[1] = 100
         
-        
         global data
-    
+
+        #debugMsg(data)
+        
         iCloneRegularData = []
         iCloneCustomData = []
         iCloneEyeRData = []
@@ -317,6 +327,9 @@ class Faceware():
             iCloneBoneData.append(0)
         for i in range (3):
             iCloneHeadData.append(0)
+        
+        #data.reverse()
+        #debugMsg(data)
         
         for i in range(len(facewareList)):
             for j in range(len(data)):
@@ -418,23 +431,22 @@ class FacialID:
 
         #debugMsg(fmMappingUi.qtExpressionComboBox.currentIndex())
         if (self.type == "feRegularData"):
-            data[fmMappingUi.qtExpressionComboBox.currentIndex()]["feRegularData"][self.id] = value/100.0*globalStrength/100
+            data[fmMappingUi.qtExpressionComboBox.currentIndex()]["feRegularData"][self.id] = value/100.0
             
         elif (self.type == "feCustomData"):
-            data[fmMappingUi.qtExpressionComboBox.currentIndex()]["feCustomData"][self.id] = value/100.0*globalStrength/100
+            data[fmMappingUi.qtExpressionComboBox.currentIndex()]["feCustomData"][self.id] = value/100.0
             
         elif (self.type == "feBoneData"):
-            data[fmMappingUi.qtExpressionComboBox.currentIndex()]["feBoneData"][self.id] = value/100.0*globalStrength/100
+            data[fmMappingUi.qtExpressionComboBox.currentIndex()]["feBoneData"][self.id] = value/100.0
             
         elif (self.type == "feEyeLData"):
-            data[fmMappingUi.qtExpressionComboBox.currentIndex()]["feEyeLData"][self.id] = value/100.0*globalStrength/100
+            data[fmMappingUi.qtExpressionComboBox.currentIndex()]["feEyeLData"][self.id] = value/100.0
             
         elif (self.type == "feEyeRData"):
-            data[fmMappingUi.qtExpressionComboBox.currentIndex()]["feEyeRData"][self.id] = value/100.0*globalStrength/100
+            data[fmMappingUi.qtExpressionComboBox.currentIndex()]["feEyeRData"][self.id] = value/100.0
             
         elif (self.type == "feHeadData"):
-            if (value > 30):
-                data[fmMappingUi.qtExpressionComboBox.currentIndex()]["feHeadData"][self.id] = (value-30)/100.0
+            data[fmMappingUi.qtExpressionComboBox.currentIndex()]["feHeadData"][self.id] = value/100.0
             
         else:
             None
@@ -564,6 +576,7 @@ def loadDefaultData():
         global data
         data = fileData
         changeData()
+        #debugMsg(data)
             
 def loadData():
     filePath, _ = PySide2.QtWidgets.QFileDialog.getOpenFileName(
@@ -690,16 +703,21 @@ def changeData():
             
             break
     
+    global sourceData
+            
     for i in range(len(sourceData)):
         for j in range(len(data)):
             if ( data[j]["id"] == sourceData[i].name ):
                 try:
                     #debugMsg(data[j]["strength"])
                     sourceData[i].container.setMultiplyValue(data[j]["strength"])
+                    #debugMsg(sourceData[i].container.multiplyValue)
+                    #debugMsg(sourceData[i].container.multiplyValue)
                 except:
                     None
     
     showSlider()
+    #debugMsg(data)
     
 def loop():
     device.loop()
