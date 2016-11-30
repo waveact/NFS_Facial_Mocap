@@ -27,9 +27,12 @@ sys.path.insert(0, ResPath) # or sys.path.append('/path/to/application/app/folde
 mainUI = ResPath + "\\resource\FM_mainWindow.ui"
 mappingUI = ResPath + "\\resource\FM_mapping.ui"
 dataSourceUI = ResPath + "\\resource\FM_dataSource.ui"
+dataSmoothUI = ResPath + "\\resource\FM_smooth.ui"
+dataRangeUI = ResPath + "\\resource\FM_range.ui"
 
 #import VerticalSliderSpinner
 #import rlWidget
+from resource.smooth import *
 import resource.rlWidget
 import resource.VerticalSliderSpinner
 #from resource import rlWidget
@@ -41,7 +44,8 @@ from resource.VerticalSliderSpinner import VerticalSliderSpinner
 globalStrength = 100
 
 tempData = []
-sgFilterContainer = [tempData,tempData,tempData,tempData,tempData,tempData,tempData,tempData,tempData,tempData]
+#sgFilterContainer = [tempData,tempData,tempData,tempData,tempData,tempData,tempData,tempData,tempData,tempData]
+smoothFilterContainer = []
 
 '''
 import rlSlider
@@ -61,9 +65,16 @@ rlSliderBoneContainer = []
 
 device = None
 
+testBool = False
+
 oldToNew = [1,2,3,4,5,6,7,8,33,34,35,27,32,9,10,12,13,14,15,17,18,21,22,24,25,26,31,11,16,19,20,23,28,29,30,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60]
 
 facewareList = [ "01.mouth_rightMouth_stretch", "02.mouth_leftMouth_narrow", "03.mouth_up", "04.mouth_leftMouth_stretch", "05.mouth_rightMouth_narrow", "06.mouth_down", "07.mouth_upperLip_left_up", "08.mouth_upperLip_right_up", "09.mouth_lowerLip_left_down", "10.mouth_lowerLip_right_down", "11.mouth_leftMouth_frown", "12.mouth_rightMouth_frown", "13.mouth_leftMouth_smile", "14.mouth_rightMouth_smile", "15.eyes_lookRight", "16.eyes_lookLeft", "17.eyes_lookDown", "18.eyes_lookUp", "19.eyes_leftEye_blink", "20.eyes_rightEye_blink", "21.eyes_leftEye_wide", "22.eyes_rightEye_wide", "23.brows_leftBrow_up", "24.brows_leftBrow_down", "25.brows_rightBrow_up", "26.brows_rightBrow_down", "27.brows_midBrows_up", "28.brows_midBrows_down", "29.jaw_open", "30.jaw_left", "31.jaw_right", "32.mouth_phoneme_oh_q", "33.mouth_right", "34.mouth_left", "35.mouth_phoneme_mbp", "36.mouth_phoneme_ch", "37.mouth_phoneme_fv", "38.head_up", "39.head_down", "40.head_left", "41.head_right", "42.head_LeftTilt", "43.head_RightTilt" ]
+
+#brow 1~8
+#eye 9~15
+#nose 16~20
+#mouth and cheek 21~60
 
 feRegularList = [ "01.Brow Raise Inner L", "02.Brow Raise Inner R", "03.", "04.", "05.Brow Drop L", "06.Brow Drop R", "07.Brow Raise L", "08.Brow Raise R", "09.", "10.Eye Blink L", "11.Eye Blink R", "12.Eye Wide L", "13.Eye Wide R", "14.Eye Squint L", "15.Eye Squint R", "16.Nose Scrunch", "17.Nose Flanks Raise", "18.Nose Flank Raise L", "19.Nose Flank Raise R", "20.Nose Nostrils Flare", "21.Cheek Raise L", "22.Cheek Raise R", "23.Cheeks Suck", "24.", "25.", "26.", "27.Mouth Smile L", "28.Mouth Smile R", "29.Mouth Frown", "30.Mouth Frown L", "31.Mouth Frown R", "32.", "33.Mouth Pucker", "34.Mouth Pucker Open", "35.Mouth Widen", "36.", "37.Mouth Dimple L", "38.Mouth Dimple R", "39.Mouth Plosive", "40.", "41.", "42.", "43.", "44.Mouth Bottom Lip Down", "45.Mouth Top Lip Up", "46.Mouth Top Lip Under", "47.", "48.Mouth Snarl Upper L", "49.Mouth Snarl Upper R", "50.Mouth Snarl Lower L", "51.Mouth Snarl Lower R", "52.Mouth Bottom Lip Bite", "53.Mouth Down", "54.Mouth Up", "55.Mouth L", "56.Mouth R", "57.Mouth Lips Jaw Adjust", "58.Mouth Bottom Lip Trans", "59.Mouth Skewer", "60.Mouth Open" ]
 
@@ -172,7 +183,8 @@ class Faceware():
         self.bool = True
         if self.sock == None:
             self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            facewareSock_server_address = ('localhost', 802)
+            facewareSock_server_address = ('127.0.0.1', 802)
+            #facewareSock_server_address = ('10.10.10.184', 802)
             self.sock.settimeout(5)
             try:
                 self.streamCacheBuffer = CacheBuffer()
@@ -254,7 +266,7 @@ class Faceware():
         temp = []
         
         global sourceData
-       
+        '''
         for i in range(len(sourceData)):
             #debugMsg(sourceData[i])
             #debugMsg(sourceData[i]["id"])
@@ -263,36 +275,16 @@ class Faceware():
             try:
                 #data_name = (name.split(".")[1]).lower()
                 #debugMsg(dataFromFaceware[dataSource["id"].lower()])
-                dataFromFaceware[data_name] = dataFromFaceware[data_name]*sourceData[i].container.multiplyValue*globalStrength/100
+                #dataFromFaceware[data_name] = dataFromFaceware[data_name]*sourceData[i].container.multiplyValue*globalStrength/100
+                dataFromFaceware[data_name] = dataFromFaceware[data_name]
                 #debugMsg(dataFromFaceware[dataSource["id"].lower()])
             except:
                 None
+        '''
+        
+        #smoothFilterContainer.pop(0);
+        #smoothFilterContainer.append(dataFromFaceware);
 
-        '''
-        global sgFilterContainer
-        sgFilterContainer.pop(0);
-        sgFilterContainer.append(dataFromFaceware);
-        
-        for name in facewareList:
-            data_name = (name.split(".")[1]).lower()
-            try:
-                #debugMsg(data_name)
-                #print math.round(100*sgFilterContainer[0][data_name])
-                #tempNp = np.ndarray((10,),buffer=np.array([math.round(100*sgFilterContainer[0][data_name]),math.round(100*sgFilterContainer[1][data_name]),3]),dtype=int)
-                #debugMsg("aaa")
-                
-                #debugMsg(math.round(100*sgFilterContainer[0][data_name]))
-                #tempNp = np.ndarray((10,),buffer=np.array([1,2,3,4,5,6,7,8,9,int(100*sgFilterContainer[0][data_name])]),dtype=int)
-                tempNp = np.ndarray((10,),buffer=np.array([int(100*sgFilterContainer[0][data_name]),int(100*sgFilterContainer[1][data_name]),int(100*sgFilterContainer[2][data_name]),int(100*sgFilterContainer[3][data_name]),int(100*sgFilterContainer[4][data_name]),int(100*sgFilterContainer[5][data_name]),int(100*sgFilterContainer[6][data_name]),int(100*sgFilterContainer[7][data_name]),int(100*sgFilterContainer[8][data_name]),int(100*sgFilterContainer[9][data_name])]),dtype=int)
-                #debugMsg(tempNp)
-                yhat = savitzky_golay(tempNp, 9, 2)
-                #debugMsg(yhat)
-                self.value.append(yhat[9]/100)
-                #self.value.append(0)
-            except:
-                self.value.append(0)
-        
-        '''
         for name in facewareList:
             data_name = (name.split(".")[1]).lower()
             try:
@@ -303,7 +295,13 @@ class Faceware():
                 self.value.append(0)
         
         #self.value[1] = 100
-        
+        '''
+        global testBool
+        if (testBool==False):
+            debugMsg(dataFromFaceware)
+            testBool = True
+        '''
+        #debugMsg(dataFromFaceware)
         global data
 
         #debugMsg(data)
@@ -330,6 +328,11 @@ class Faceware():
         
         #data.reverse()
         #debugMsg(data)
+        
+        #brow 1~8
+        #eye 9~15
+        #nose 16~20
+        #mouth and cheek 21~60
         
         for i in range(len(facewareList)):
             for j in range(len(data)):
@@ -365,8 +368,86 @@ class Faceware():
             for j in range(len(data)):
                 if ( data[j]["id"].lower() == facewareList[i].lower() ):
                     for k in range(len(data[j]["feHeadData"])):
-                        if ( data[j]["feHeadData"][k] > 0.3 ):
-                            iCloneHeadData[k] = iCloneHeadData[k] + ((data[j]["feHeadData"][k]-0.3)*self.value[i])
+                        if ( data[j]["feHeadData"][k]):
+                            iCloneHeadData[k] = iCloneHeadData[k] + ((data[j]["feHeadData"][k])*self.value[i])
+        
+        #strength
+        for i in range(len(iCloneRegularData)):
+            global oldToNew
+            #oldToNew = [1,2,3,4,5,6,7,8,
+            #33,34,35,27,32,9,10,12,13,14,15,17,18,21,22,24,25,26,31,11,16,19,20,23,28,29,30,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60]
+            #brow 1~8
+            #eye 9~15
+            #nose 16~20
+            #mouth and cheek 21~60
+            if ( i >=0 and i <= 7 ):
+                iCloneRegularData[oldToNew[i]-1] = iCloneRegularData[oldToNew[i]-1]*fmMainUi.qtBrowStrengthSlider.value()/100
+            
+            if ( i >=8 and i <= 14 ):
+                iCloneRegularData[oldToNew[i]-1] = iCloneRegularData[oldToNew[i]-1]*fmMainUi.qtEyeStrengthSlider.value()/100
+                
+            if ( i >=15 and i <= 19 ):
+                None
+                #iCloneRegularData[i] = iCloneRegularData[i]*fmMainUi.qtEyeStrengthSlider.value()/100
+                
+            if ( i >=20 and i <= 59 ):
+                iCloneRegularData[oldToNew[i]-1] = iCloneRegularData[oldToNew[i]-1]*fmMainUi.qtMouthStrengthSlider.value()/100
+        
+        for i in range(len(iCloneBoneData)):
+            iCloneBoneData[i] = iCloneBoneData[i]*fmMainUi.qtMouthStrengthSlider.value()/100
+            
+        for i in range(len(iCloneHeadData)):
+            iCloneHeadData[i] = iCloneHeadData[i]*fmMainUi.qtHeadStrengthSlider.value()/100
+        
+        for i in range(len(iCloneBoneData)):
+            iCloneBoneData[i] = iCloneBoneData[i]*fmMainUi.qtMouthStrengthSlider.value()/100
+            
+        for i in range(len(iCloneHeadData)):
+            iCloneHeadData[i] = iCloneHeadData[i]*fmMainUi.qtHeadStrengthSlider.value()/100
+        
+        
+        #smooth
+        global smoothFilterContainer
+        if ( len(smoothFilterContainer) < 20 ):
+            smoothFilterContainer.append([iCloneRegularData,iCloneBoneData,iCloneHeadData])
+        else:
+            smoothFilterContainer.pop(0)
+            smoothFilterContainer.append([iCloneRegularData,iCloneBoneData,iCloneHeadData])
+        
+        if ( len(smoothFilterContainer) == 20 ):
+            
+            for i in range(len(iCloneRegularData)):
+                global oldToNew
+                newIndex = oldToNew[i]-1
+                temp = []
+                for j in range(len(smoothFilterContainer)):
+                    temp.append(smoothFilterContainer[j][0][newIndex])
+                
+                if ( i >=0 and i <= 7 ):
+                    smoothData = smoothList(temp,fmMainUi.qtBrowSmoothSlider.value())
+                    iCloneRegularData[newIndex] = smoothData[len(smoothData)-1]
+                if ( i >=8 and i <= 14 ):
+                    smoothData = smoothList(temp,fmMainUi.qtEyeSmoothSlider.value())
+                    iCloneRegularData[newIndex] = smoothData[len(smoothData)-1]
+                if ( i >=15 and i <= 19 ):
+                    None
+                if ( i >=20 and i <= 59 ):
+                    smoothData = smoothList(temp,fmMainUi.qtMouthSmoothSlider.value())
+                    iCloneRegularData[newIndex] = smoothData[len(smoothData)-1]
+                    
+            for i in range(len(iCloneBoneData)):
+                temp = []
+                for j in range(len(smoothFilterContainer)):
+                    temp.append(smoothFilterContainer[j][1][i])
+                smoothData = smoothList(temp,fmMainUi.qtMouthSmoothSlider.value())
+                iCloneBoneData[i] = smoothData[len(smoothData)-1]
+                
+            for i in range(len(iCloneHeadData)):
+                temp = []
+                for j in range(len(smoothFilterContainer)):
+                    temp.append(smoothFilterContainer[j][2][i])
+                smoothData = smoothList(temp,fmMainUi.qtHeadSmoothSlider.value())
+                iCloneHeadData[i] = smoothData[len(smoothData)-1]
         
         #tag = True
         if (self.bool):
@@ -399,7 +480,24 @@ class DataSourceID:
         #hboxLayout = PySide2.QtWidgets.QVBoxLayout()
         #self.container.setLayout( hboxLayout )
         self.parentWidget.layout().addWidget(self.container)
+        
+        #self.container.smoothButton.clicked(self.onSmoothClicked)
+        #self.container.rangeButton.clicked(self.onRangeClicked)
     
+    def onSmoothClicked(self):
+        None
+        '''
+        global dataSmoothUI
+        dataSmoothUI.show()
+        '''
+        
+    def onRangeClicked(self):
+        None
+        '''
+        global dataRangeUI
+        dataRangeUI.show()
+        '''
+        
     def onValueChanged(self,value):
         None
     
@@ -751,6 +849,43 @@ def spinboxStrengthChanged():
     global globalStrength
     globalStrength = fmMappingUi.qtGlobalStrengthSpinBox.value()
     fmMappingUi.qtGlobalStrengthSlider.setValue(globalStrength)
+
+def smoothFactor(type):
+    if (type=="head"):
+        '''
+        debugMsg(smoothList([1,2,3,4,5,6,7,8,9,10,11],2))
+        debugMsg(smoothList([1,2,3,4,5,6,7,8,9,10,11],3))
+        debugMsg(smoothList([1,2,3,4,5,6,7,8,9,10,11],4))
+        debugMsg(smoothList([1,2,3,4,5,6,7,8,9,10,11],5))
+        debugMsg(smoothList([1,2,3,4,5,6,7,8,9,10,11],6))
+        debugMsg(smoothList([1,2,3,4,5,6,7,8,9,10,11],7))
+        debugMsg(smoothList([1,2,3,4,5,6,7,8,9,10,11],8))
+        '''
+        None
+    elif (type=="brow"):
+        None
+    elif (type=="eye"):
+        None
+    elif (type=="mouth"):
+        None
+    else:
+        None
+    
+    
+def headSmooth():
+    smoothFactor("head")
+
+def browSmooth():
+    smoothFactor("brow")
+
+def eyeSmooth():
+    smoothFactor("eye")
+
+def mouthSmooth():
+    smoothFactor("mouth")
+
+
+    
     
     
 #init
@@ -774,6 +909,12 @@ fmMainUi.qtMappingToolButton.clicked.connect(openMappingDlg)
 fmMainUi.qtRecordPushButton.clicked.connect(startRecord)
 fmMainUi.qtPreviewPushButton.clicked.connect(startPreview)
 
+
+fmMainUi.qtHeadSmoothSlider.valueChanged.connect(headSmooth)
+fmMainUi.qtBrowSmoothSlider.valueChanged.connect(browSmooth)
+fmMainUi.qtEyeSmoothSlider.valueChanged.connect(eyeSmooth)
+fmMainUi.qtMouthSmoothSlider.valueChanged.connect(mouthSmooth)
+
 loader = QUiLoader()
 file = PySide2.QtCore.QFile(mappingUI)
 file.open(PySide2.QtCore.QFile.ReadOnly)
@@ -786,6 +927,8 @@ fmMappingUi.qtShowAllSliderCheckBox.clicked.connect(showSlider)
 fmMappingUi.qtDataSourcePushButton.clicked.connect(showDataSource)
 fmMappingUi.qtGlobalStrengthSlider.valueChanged.connect(sliderStrengthChanged)
 fmMappingUi.qtGlobalStrengthSpinBox.valueChanged.connect(spinboxStrengthChanged)
+
+
 #fmMappingUi.qtLoadPushButton.clicked.connect(loadData)
 #fmMappingUi.qtZeroAllPushButton.connect(zeroAll)
 mainWidget.setRelatedWidget(fmMappingUi)
@@ -795,8 +938,19 @@ file = PySide2.QtCore.QFile(dataSourceUI)
 file.open(PySide2.QtCore.QFile.ReadOnly)
 fmDataSourceUi = loader.load(file)
 mainWidget.setRelatedWidget(fmDataSourceUi)
-#fmDataSourceUi.show()
 
+#fmDataSourceUi.show()
+loader = QUiLoader()
+file = PySide2.QtCore.QFile(dataSmoothUI)
+file.open(PySide2.QtCore.QFile.ReadOnly)
+fmDataSmoothUi = loader.load(file)
+mainWidget.setRelatedWidget(fmDataSmoothUi)
+#
+loader = QUiLoader()
+file = PySide2.QtCore.QFile(dataRangeUI)
+file.open(PySide2.QtCore.QFile.ReadOnly)
+fmDataRangeUi = loader.load(file)
+mainWidget.setRelatedWidget(fmDataRangeUi)
 
 
 def initUi():

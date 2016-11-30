@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>363</width>
-    <height>825</height>
+    <width>318</width>
+    <height>640</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Facial Mocap</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_8">
+  <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <property name="leftMargin">
@@ -21,12 +21,6 @@
      </property>
      <item>
       <widget class="QLabel" name="label_2">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
        <property name="text">
         <string>Device Source :</string>
        </property>
@@ -152,7 +146,7 @@
         </property>
         <property name="minimumSize">
          <size>
-          <width>325</width>
+          <width>255</width>
           <height>255</height>
          </size>
         </property>
@@ -504,476 +498,132 @@
        </widget>
       </item>
       <item>
-       <widget class="QTabWidget" name="qtAdvTabWidget">
-        <property name="currentIndex">
-         <number>0</number>
-        </property>
-        <widget class="QWidget" name="qtSmoothTabWidget">
-         <attribute name="title">
-          <string>Smooth</string>
-         </attribute>
-         <layout class="QVBoxLayout" name="verticalLayout_19">
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <item>
+         <widget class="QCheckBox" name="qtSymmetrySelectCheckBox">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Symmetry Select</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="Line" name="line">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_4">
           <item>
-           <widget class="QGroupBox" name="qtSmoothGroup">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
+           <widget class="QCheckBox" name="qtHeadRotationCheckBox">
+            <property name="enabled">
+             <bool>false</bool>
             </property>
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>300</height>
-             </size>
+            <property name="text">
+             <string>Head Rotation</string>
             </property>
-            <property name="title">
-             <string>Smooth</string>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="qtMirrorMotionCheckBox">
+            <property name="enabled">
+             <bool>false</bool>
             </property>
-            <layout class="QVBoxLayout" name="verticalLayout_3">
-             <item>
-              <layout class="QVBoxLayout" name="verticalLayout_4">
-               <item>
-                <widget class="QLabel" name="label_4">
-                 <property name="enabled">
-                  <bool>true</bool>
-                 </property>
-                 <property name="text">
-                  <string>Head</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <layout class="QHBoxLayout" name="horizontalLayout">
-                 <item>
-                  <widget class="QSlider" name="qtHeadSmoothSlider">
-                   <property name="enabled">
-                    <bool>true</bool>
-                   </property>
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="maximum">
-                    <number>10</number>
-                   </property>
-                   <property name="value">
-                    <number>0</number>
-                   </property>
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QSpinBox" name="qtHeadSmoothSpinBox">
-                   <property name="maximum">
-                    <number>10</number>
-                   </property>
-                   <property name="value">
-                    <number>0</number>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <layout class="QVBoxLayout" name="verticalLayout_2">
-               <item>
-                <widget class="QLabel" name="label_5">
-                 <property name="enabled">
-                  <bool>true</bool>
-                 </property>
-                 <property name="text">
-                  <string>Brow</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_3">
-                 <item>
-                  <widget class="QSlider" name="qtBrowSmoothSlider">
-                   <property name="enabled">
-                    <bool>true</bool>
-                   </property>
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="maximum">
-                    <number>10</number>
-                   </property>
-                   <property name="value">
-                    <number>0</number>
-                   </property>
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QSpinBox" name="qtBrowSmoothSpinBox">
-                   <property name="maximum">
-                    <number>10</number>
-                   </property>
-                   <property name="value">
-                    <number>0</number>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <layout class="QVBoxLayout" name="verticalLayout_6">
-               <property name="spacing">
-                <number>6</number>
-               </property>
-               <item>
-                <widget class="QLabel" name="label_7">
-                 <property name="enabled">
-                  <bool>true</bool>
-                 </property>
-                 <property name="text">
-                  <string>Eye</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_4">
-                 <item>
-                  <widget class="QSlider" name="qtEyeSmoothSlider">
-                   <property name="enabled">
-                    <bool>true</bool>
-                   </property>
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="maximum">
-                    <number>10</number>
-                   </property>
-                   <property name="value">
-                    <number>0</number>
-                   </property>
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QSpinBox" name="qtEyeSmoothSpinBox">
-                   <property name="maximum">
-                    <number>10</number>
-                   </property>
-                   <property name="value">
-                    <number>0</number>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <layout class="QVBoxLayout" name="verticalLayout_7">
-               <item>
-                <widget class="QLabel" name="label_9">
-                 <property name="enabled">
-                  <bool>true</bool>
-                 </property>
-                 <property name="text">
-                  <string>Mouth</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_5">
-                 <item>
-                  <widget class="QSlider" name="qtMouthSmoothSlider">
-                   <property name="enabled">
-                    <bool>true</bool>
-                   </property>
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="maximum">
-                    <number>10</number>
-                   </property>
-                   <property name="value">
-                    <number>0</number>
-                   </property>
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QSpinBox" name="qtMouthSmoothSpinBox">
-                   <property name="maximum">
-                    <number>10</number>
-                   </property>
-                   <property name="value">
-                    <number>0</number>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-              </layout>
-             </item>
-            </layout>
+            <property name="text">
+             <string>Mirror Motion</string>
+            </property>
            </widget>
           </item>
          </layout>
-        </widget>
-        <widget class="QWidget" name="qtStrengthTabWidget">
-         <attribute name="title">
-          <string>Strength</string>
-         </attribute>
-         <layout class="QVBoxLayout" name="verticalLayout_18">
-          <item>
-           <widget class="QGroupBox" name="qtSmoothGroup_2">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>300</height>
-             </size>
-            </property>
-            <property name="title">
-             <string>Strength</string>
-            </property>
-            <layout class="QVBoxLayout" name="verticalLayout_9">
-             <item>
-              <layout class="QVBoxLayout" name="verticalLayout_10">
-               <item>
-                <widget class="QLabel" name="label_10">
-                 <property name="enabled">
-                  <bool>true</bool>
-                 </property>
-                 <property name="text">
-                  <string>Head</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_6">
-                 <item>
-                  <widget class="QSlider" name="qtHeadStrengthSlider">
-                   <property name="enabled">
-                    <bool>true</bool>
-                   </property>
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="maximum">
-                    <number>300</number>
-                   </property>
-                   <property name="value">
-                    <number>99</number>
-                   </property>
-                   <property name="sliderPosition">
-                    <number>99</number>
-                   </property>
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QSpinBox" name="qtHeadStrengthSpinBox">
-                   <property name="maximum">
-                    <number>300</number>
-                   </property>
-                   <property name="value">
-                    <number>100</number>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <layout class="QVBoxLayout" name="verticalLayout_15">
-               <item>
-                <widget class="QLabel" name="label_11">
-                 <property name="enabled">
-                  <bool>true</bool>
-                 </property>
-                 <property name="text">
-                  <string>Brow</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_7">
-                 <item>
-                  <widget class="QSlider" name="qtBrowStrengthSlider">
-                   <property name="enabled">
-                    <bool>true</bool>
-                   </property>
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="maximum">
-                    <number>300</number>
-                   </property>
-                   <property name="value">
-                    <number>100</number>
-                   </property>
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QSpinBox" name="qtBrowStrengthSpinBox">
-                   <property name="maximum">
-                    <number>300</number>
-                   </property>
-                   <property name="value">
-                    <number>100</number>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <layout class="QVBoxLayout" name="verticalLayout_16">
-               <property name="spacing">
-                <number>6</number>
-               </property>
-               <item>
-                <widget class="QLabel" name="label_12">
-                 <property name="enabled">
-                  <bool>true</bool>
-                 </property>
-                 <property name="text">
-                  <string>Eye</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_8">
-                 <item>
-                  <widget class="QSlider" name="qtEyeStrengthSlider">
-                   <property name="enabled">
-                    <bool>true</bool>
-                   </property>
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="maximum">
-                    <number>300</number>
-                   </property>
-                   <property name="value">
-                    <number>100</number>
-                   </property>
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QSpinBox" name="qtEyeStrengthSpinBox">
-                   <property name="maximum">
-                    <number>300</number>
-                   </property>
-                   <property name="value">
-                    <number>100</number>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <layout class="QVBoxLayout" name="verticalLayout_17">
-               <item>
-                <widget class="QLabel" name="label_13">
-                 <property name="enabled">
-                  <bool>true</bool>
-                 </property>
-                 <property name="text">
-                  <string>Mouth</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_9">
-                 <item>
-                  <widget class="QSlider" name="qtMouthStrengthSlider">
-                   <property name="enabled">
-                    <bool>true</bool>
-                   </property>
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="maximum">
-                    <number>300</number>
-                   </property>
-                   <property name="value">
-                    <number>100</number>
-                   </property>
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QSpinBox" name="qtMouthStrengthSpinBox">
-                   <property name="maximum">
-                    <number>300</number>
-                   </property>
-                   <property name="value">
-                    <number>100</number>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-              </layout>
-             </item>
-            </layout>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_4">
+        <item>
+         <widget class="QLabel" name="label_4">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Smoother</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSlider" name="horizontalSlider">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboSpinBox" name="qtSmootherCombodoublespinbox" native="true">
+          <property name="value" stdset="0">
+           <number>50</number>
+          </property>
+          <property name="maximum" stdset="0">
+           <number>100</number>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_6">
+        <item>
+         <widget class="QLabel" name="label_5">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Intensity Multiplier</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSlider" name="horizontalSlider_2">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboDoubleSpinBox" name="qtIntensityMultiplierCombodoublespinbox" native="true">
+          <property name="decimals" stdset="0">
+           <number>2</number>
+          </property>
+          <property name="spacing" stdset="0">
+           <number>10</number>
+          </property>
+          <property name="value" stdset="0">
+           <double>1.000000000000000</double>
+          </property>
+          <property name="minimum" stdset="0">
+           <double>0.100000000000000</double>
+          </property>
+          <property name="maximum" stdset="0">
+           <double>2.000000000000000</double>
+          </property>
+          <property name="singleStep" stdset="0">
+           <double>0.010000000000000</double>
+          </property>
+          <property name="independentSpin" stdset="0">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
       <item>
        <widget class="QStackedWidget" name="qtEditorPanelStackedWidget">
@@ -1320,266 +970,20 @@
    <header>QRLContainer.h</header>
    <container>1</container>
   </customwidget>
+  <customwidget>
+   <class>QComboSpinBox</class>
+   <extends>QWidget</extends>
+   <header>QComboSpinBox.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>QComboDoubleSpinBox</class>
+   <extends>QWidget</extends>
+   <header>QComboDoubleSpinBox.h</header>
+  </customwidget>
  </customwidgets>
  <resources>
   <include location="FacialMocap.qrc"/>
  </resources>
- <connections>
-  <connection>
-   <sender>qtHeadSmoothSlider</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>qtHeadSmoothSpinBox</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>156</x>
-     <y>506</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>297</x>
-     <y>505</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>qtHeadSmoothSpinBox</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>qtHeadSmoothSlider</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>297</x>
-     <y>505</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>156</x>
-     <y>506</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>qtBrowSmoothSlider</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>qtBrowSmoothSpinBox</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>156</x>
-     <y>575</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>297</x>
-     <y>574</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>qtBrowSmoothSpinBox</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>qtBrowSmoothSlider</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>297</x>
-     <y>574</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>156</x>
-     <y>575</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>qtBrowStrengthSlider</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>qtBrowStrengthSpinBox</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>156</x>
-     <y>575</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>297</x>
-     <y>574</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>qtBrowStrengthSpinBox</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>qtBrowStrengthSlider</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>297</x>
-     <y>574</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>156</x>
-     <y>575</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>qtEyeSmoothSlider</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>qtEyeSmoothSpinBox</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>156</x>
-     <y>643</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>297</x>
-     <y>642</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>qtEyeSmoothSpinBox</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>qtEyeSmoothSlider</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>297</x>
-     <y>642</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>156</x>
-     <y>643</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>qtEyeStrengthSlider</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>qtEyeStrengthSpinBox</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>156</x>
-     <y>643</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>297</x>
-     <y>642</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>qtEyeStrengthSpinBox</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>qtEyeStrengthSlider</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>297</x>
-     <y>642</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>156</x>
-     <y>643</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>qtHeadStrengthSlider</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>qtHeadStrengthSpinBox</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>156</x>
-     <y>506</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>297</x>
-     <y>505</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>qtHeadStrengthSpinBox</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>qtHeadStrengthSlider</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>297</x>
-     <y>505</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>156</x>
-     <y>506</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>qtMouthSmoothSlider</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>qtMouthSmoothSpinBox</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>156</x>
-     <y>712</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>297</x>
-     <y>711</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>qtMouthSmoothSpinBox</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>qtMouthSmoothSlider</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>297</x>
-     <y>711</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>156</x>
-     <y>712</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>qtMouthStrengthSlider</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>qtMouthStrengthSpinBox</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>156</x>
-     <y>712</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>297</x>
-     <y>711</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>qtMouthStrengthSpinBox</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>qtMouthStrengthSlider</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>297</x>
-     <y>711</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>156</x>
-     <y>712</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

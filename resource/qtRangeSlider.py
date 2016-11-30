@@ -636,7 +636,9 @@ class QRangeSliderDialog(QtWidgets.QDialog):
     # Return the current range values
     #
     def getValues(self):
+        #print self.range_widget.getValues()
         return self.range_widget.getValues()
+        
    
 #
 # Testing

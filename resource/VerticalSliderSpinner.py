@@ -16,8 +16,12 @@ class VerticalSliderSpinner(QWidget):
         #self.setWindowTitle('Testing text rotation ...')
         self.value = 0
         
+        
         #self.qRangeSlider = QHRangeSlider(slider_range = [0.0, 1.0, 0.5], values = [-2.5, 2.5])
         self.multiplyValue = 1
+        
+        
+        self.muteValue = self.multiplyValue
         
         self.parentWidget = parentWidget
         
@@ -44,7 +48,7 @@ class VerticalSliderSpinner(QWidget):
         self.slider = PySide2.QtWidgets.QSlider(QtCore.Qt.Vertical)
         
         self.muteButton = PySide2.QtWidgets.QToolButton()
-        self.smoothButton = PySide2.QtWidgets.QToolButton()
+        #self.smoothButton = PySide2.QtWidgets.QToolButton()
         self.rangeButton = PySide2.QtWidgets.QToolButton()
         
         #self.layout().addWidget( self.slider )
@@ -76,12 +80,12 @@ class VerticalSliderSpinner(QWidget):
         
         self.layout().addWidget( self.buttonGroup )
         self.buttonGroup.layout().addWidget( self.muteButton )
-        self.buttonGroup.layout().addWidget( self.smoothButton )
+        #self.buttonGroup.layout().addWidget( self.smoothButton )
         self.buttonGroup.layout().addWidget( self.rangeButton )
         
         self.muteButton.setText("M")
         self.muteButton.setCheckable(True)
-        self.smoothButton.setText("S")
+        #self.smoothButton.setText("S")
         self.rangeButton.setText("R")
         #self.smoothButton.setCheckable(True)
         
@@ -100,11 +104,13 @@ class VerticalSliderSpinner(QWidget):
         self.slider.setMaximum(self.max)
         self.slider.setMinimum(self.min)
         self.slider.setValue( 0 )
-        
+        '''
         if ( smooth ):
             self.smoothButton.show()
         else:
             self.smoothButton.hide()
+        '''
+        #self.smoothButton.hide()
         
         if ( range ):
             self.rangeButton.show()
@@ -128,8 +134,10 @@ class VerticalSliderSpinner(QWidget):
             self.slider.setEnabled(True)
         
         self.rangeButton.clicked.connect(self.showRangeDlg)
-        self.smoothButton.clicked.connect(self.showSmoothDlg)
+        #self.smoothButton.clicked.connect(self.showSmoothDlg)
         self.muteButton.clicked.connect(self.muteClick)
+        
+        self.isMuteClick = self.muteButton.isChecked()
         
         self.multiplySpinner.valueChanged.connect(self.multiplySpinnerChanged)
     
@@ -141,24 +149,45 @@ class VerticalSliderSpinner(QWidget):
         self.multiplyValue = self.multiplySpinner.value()
     
     def muteClick(self):
-        self.muteClick = self.muteButton.ckecked
+        self.isMuteClick = self.muteButton.isChecked()
+        if (self.isMuteClick):
+            self.muteValue = self.multiplyValue
+            self.multiplySpinner.setEnabled(False)
+            self.setMultiplyValue(0)
+        else:
+            self.multiplyValue = self.muteValue
+            self.multiplySpinner.setEnabled(True)
+            self.setMultiplyValue(self.multiplyValue)
     
     def showRangeDlg(self):
-        '''
         dialog = QRangeSliderDialog(title_text = "Range Slider",
                                     slider_range = [0,1,0.1],
-                                    values = [0, 1])
+                                    values = [self.min/100, self.max/100], parent = self)
         
-        dialog.open()
+        #dialog.open()
         dialog.exec_()
-        '''
-        None
+        if dialog.exec_():
+            #self.slider.setValue( 10 )
+            self.min = dialog.getValues()[0]*100
+            self.max = dialog.getValues()[1]*100
+            self.slider.setMinimum(dialog.getValues()[0]*100)
+            self.slider.setMaximum(dialog.getValues()[1]*100)
+            self.spinner.setMinimum(dialog.getValues()[0]*100)
+            self.spinner.setMaximum(dialog.getValues()[1]*100)
+    
+    def debugMsg(self,_str):
+        _text = str(_str)
+        info_dialog = PySide2.QtWidgets.QMessageBox()
+        info_dialog.setWindowTitle('Debug Window')
+        info_dialog.setText(_text)
+        info_dialog.exec_()
+        
         
     def showSmoothDlg(self):
         None
     
     def setValue(self,value):
-        self.value = value
+        self.value = value/(self.max-self.min)
         self.spinner.setValue( value )
         self.slider.setValue( value )
         self.parentWidget.onValueChanged(self.value)

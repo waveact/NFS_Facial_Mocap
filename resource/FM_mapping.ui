@@ -266,6 +266,9 @@
     <layout class="QHBoxLayout" name="horizontalLayout_5">
      <item>
       <widget class="QLabel" name="qtGlobalStrengthLabel">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>Global Strength : </string>
        </property>
@@ -273,6 +276,9 @@
      </item>
      <item>
       <widget class="QSlider" name="qtGlobalStrengthSlider">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="maximum">
         <number>300</number>
        </property>
@@ -286,6 +292,9 @@
      </item>
      <item>
       <widget class="QSpinBox" name="qtGlobalStrengthSpinBox">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="maximum">
         <number>300</number>
        </property>
